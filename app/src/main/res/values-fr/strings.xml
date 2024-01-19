@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FastQuiz</string>
+    <string name="newPlayer">Nouveau joueur</string>
+    <string name="startNewGame">Nouvelle partie</string>
+    <string name="player1">Joueur 1</string>
+    <string name="player2">Joueur 2</string>
+    <string name="questionIntro">Question</string>
+    <string name="menu">MENU</string>
+    <string name="restart">REESSAYER</string>
+    <string name="StartScore">0</string>
+</resources>

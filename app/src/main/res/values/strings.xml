@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">FastQuiz</string>
+    <string name="newPlayer">NEW PLAYER</string>
+    <string name="startNewGame">New game</string>
+    <string name="player1">Player 1</string>
+    <string name="player2">Player 2</string>
+    <string name="questionIntro">Question</string>
+    <string name="menu">MENU</string>
+    <string name="restart">RESTART</string>
+    <string name="StartScore">0</string>
+</resources>
