@@ -18,6 +18,7 @@ public class QuestionData {
         listQuestions.add(new Question("Le Pascal a été inventé par Niklaus Wirth.",true));
     }
     public List<Question> getListQuestions() {
+        questionData();
         return listQuestions;
     }
 }
