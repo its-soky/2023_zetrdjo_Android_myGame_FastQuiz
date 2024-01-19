@@ -1,5 +1,6 @@
 package com.example.mygame.controle;
 
+import android.app.PendingIntent;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -25,7 +26,7 @@ public class GameManager {
      * @return une question
      */
     public String getCurrentQuestion() {
-        if (indexQuestion <= listQuestions.size()){
+        if (indexQuestion != listQuestions.size()){
             String currentQuestion = listQuestions.get(indexQuestion).getTitle();
             indexQuestion++;
             return currentQuestion;
@@ -34,4 +35,3 @@ public class GameManager {
         return "Fin du jeu";
     }
 }
-

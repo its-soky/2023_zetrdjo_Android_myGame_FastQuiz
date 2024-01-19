@@ -2,6 +2,7 @@ package com.example.mygame;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -48,13 +49,28 @@ public class GameActivity extends AppCompatActivity {
         question1 = findViewById(R.id.question1);
         question2 = findViewById(R.id.question2);
 
+        bp1 = findViewById(R.id.buttonP1);
+        bp2 = findViewById(R.id.buttonP2);
+
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         setQuestions();
-
+        bp1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setQuestions();
+            }
+        });
+        bp2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     //fonctions
