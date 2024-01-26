@@ -1,19 +1,20 @@
 package com.example.mygame.controle;
 
-import android.app.PendingIntent;
-import android.widget.Button;
-import android.widget.TextView;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Handler;
 
-import com.example.mygame.R;
 import com.example.mygame.modele.Question;
 import com.example.mygame.modele.QuestionData;
 
-import java.nio.Buffer;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameManager {
     private List<Question> listQuestions;
     private int indexQuestion;
+
     private QuestionData questionData;
 
    public GameManager() {
@@ -26,12 +27,50 @@ public class GameManager {
      * @return une question
      */
     public String getCurrentQuestion() {
-        if (indexQuestion != listQuestions.size()){
+        if (indexQuestion != listQuestions.size()) {
             String currentQuestion = listQuestions.get(indexQuestion).getTitle();
             indexQuestion++;
             return currentQuestion;
         }
-        indexQuestion = 0;
-        return "Fin du jeu";
+        return "Fin du jeu.";
     }
+
+    /**
+     * Reset l'index de la liste pour que le jeu recommence
+     */
+    public void resetListQuestion() {
+        indexQuestion = 0;
+    }
+
+    //public Boolean playerAnswer (Boolean playerAnswer) {
+
+    //}
+
+    /**
+     * Vérifie si la réponse du joueur est juste et augmente ou descends son score
+     */
+    public void checkAnswer() {
+        Boolean currentAnswer = listQuestions.get(indexQuestion).getAnswer();
+    }
+
+//    /**
+//     * Charge une liste de question depuis la DB.
+//     * @param context Le contexte de l'application pour passer la query
+//     * @return Une arraylist charger de Question
+//     */
+//    private ArrayList<Question> initQuestionList(Context context){
+//        ArrayList<Question> listQuestion = new ArrayList<>();
+//        SpeedQuizSQLiteOpenHelper helper = new SpeedQuizSQLiteOpenHelper(context);
+//        SQLiteDatabase db = helper.getReadableDatabase();
+//
+//        Cursor cursor = db.query(true,"quiz",new String[]{"idQuiz","question","reponse"},null,null,null,null,"idquiz",null);
+//
+//        while(cursor.moveToNext()){
+//            listQuestion.add(new Question(cursor));
+//        }
+//
+//        cursor.close();
+//        db.close();
+//        return listQuestion;
+//    }
 }

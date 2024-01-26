@@ -5,6 +5,10 @@ import java.util.List;
 
 public class QuestionData {
     private List<Question> listQuestions = new ArrayList<>();
+
+    /**
+     * Rempli la liste de questions
+     */
     public void questionData() {
         listQuestions.add(new Question("La terre est plate.", false));
         listQuestions.add(new Question("L'afrique est un pays.", false));
@@ -17,6 +21,11 @@ public class QuestionData {
         listQuestions.add(new Question("Donald Trump est noir.", false));
         listQuestions.add(new Question("Le Pascal a été inventé par Niklaus Wirth.",true));
     }
+
+    /**
+     * Rempli la liste et la retourne
+     * @return une liste de questions
+     */
     public List<Question> getListQuestions() {
         questionData();
         return listQuestions;
