@@ -1,6 +1,6 @@
 package com.example.mygame;
 
-import android.annotation.SuppressLint;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mygame.controle.GameManager;
 
-import java.util.Objects;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameActivity extends AppCompatActivity {
     //Player name
@@ -38,6 +40,7 @@ public class GameActivity extends AppCompatActivity {
     GameManager manager;
     Handler handler;
     Runnable questionRunnable;
+    Timer timer;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
@@ -113,22 +116,34 @@ public class GameActivity extends AppCompatActivity {
         question2.setText(question);
     }
 
-
     private void startQuestionIterative(){
         handler = new Handler();
         questionRunnable = new Runnable() {
             @Override
             public void run() {
-                if (manager.getCurrentQuestion().equals("Fin du jeu.")) {
+                if (!manager.getCurrentQuestion().equals("Fin du jeu.")) {
                     setQuestions();
                     handler.postDelayed(questionRunnable, 4000);
                 } else {
-                    handler.removeCallbacks(questionRunnable);
                     manager.resetListQuestion();
+                    handler.removeCallbacks(questionRunnable);
                 }
             }
         };
-        handler.postDelayed(questionRunnable,0);
+        handler.postDelayed(questionRunnable,4000);
+    }
+
+    public void timer () {
+        if (timer != null) {
+            timer.cancel();
+        }
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+
+            }
+        });
     }
 
     /**
