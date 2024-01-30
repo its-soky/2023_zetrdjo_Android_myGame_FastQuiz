@@ -1,57 +1,60 @@
 package com.example.mygame.controle;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Handler;
-
 import com.example.mygame.modele.Question;
 import com.example.mygame.modele.QuestionData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameManager {
     private List<Question> listQuestions;
     private int indexQuestion;
-
     private QuestionData questionData;
 
-   public GameManager() {
+    /**
+     * Initialise la liste de questions
+     */
+    public void questions() {
        questionData = new QuestionData();
        listQuestions = questionData.getListQuestions();
    }
 
     /**
-     * Prends une question, la retourne et réinitialise l'index quand toute les questions ont été posées
+     * Prends une question dans la liste et la retourne
      * @return une question
      */
     public String getCurrentQuestion() {
-        if (indexQuestion != listQuestions.size()) {
-            String currentQuestion = listQuestions.get(indexQuestion).getTitle();
-            indexQuestion++;
-            return currentQuestion;
+        if (indexQuestion <= listQuestions.size()) {
+            return listQuestions.get(indexQuestion).getTitle();
         }
         return "Fin du jeu.";
     }
 
     /**
-     * Reset l'index de la liste pour que le jeu recommence
+     * Augmente l'index
+     */
+    public void increaseIndex(){
+        indexQuestion++;
+    }
+
+    /**
+     * réinitialise l'index de la liste pour que le jeu recommence
      */
     public void resetListQuestion() {
+        questionData = new QuestionData();
+        listQuestions = questionData.getListQuestions();
         indexQuestion = 0;
     }
 
-    //public Boolean playerAnswer (Boolean playerAnswer) {
+//    public Boolean playerAnswer (Boolean playerAnswer) {
+//
+//    }
 
-    //}
-
-    /**
-     * Vérifie si la réponse du joueur est juste et augmente ou descends son score
-     */
-    public void checkAnswer() {
-        Boolean currentAnswer = listQuestions.get(indexQuestion).getAnswer();
-    }
+//    /**
+//     * Vérifie si la réponse du joueur est juste et augmente ou descends son score
+//     */
+//    public void checkAnswer() {
+//        Boolean currentAnswer = listQuestions.get(indexQuestion).getAnswer();
+//    }
 
 //    /**
 //     * Charge une liste de question depuis la DB.

@@ -1,6 +1,5 @@
 package com.example.mygame;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,10 +27,10 @@ public class GameActivity extends AppCompatActivity {
     private Button menu;
 
     //Score
-    private TextView score1;
-    private TextView score2;
-    private int score_1;
-    private int score_2;
+//    private TextView score1;
+//    private TextView score2;
+//    private int score_1;
+//    private int score_2;
 
     //questions
     private TextView question1;
@@ -39,8 +38,8 @@ public class GameActivity extends AppCompatActivity {
 
     GameManager manager;
     Handler handler;
-    Runnable questionRunnable;
     Timer timer;
+    TimerTask action;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
@@ -65,45 +64,29 @@ public class GameActivity extends AppCompatActivity {
         menu = findViewById(R.id.BT_menu);
         restart = findViewById(R.id.BT_restart);
 
-        score1 = findViewById(R.id.score1);
-        score2 = findViewById(R.id.score2);
+        //score1 = findViewById(R.id.score1);
+        //score2 = findViewById(R.id.score2);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        setQuestions();
-        bp1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startQuestionIterative();
-            }
+        question1.setText("Clique sur le bouton si t'es prêts.");
+        question2.setText("Clique sur le bouton si t'es prêts.");
+        manager.questions();
+
+        bp1.setOnClickListener(v -> timer());
+
+        bp2.setOnClickListener(v -> timer());
+
+        menu.setOnClickListener(v -> {
+            //Retourne au menu
+            finish();
         });
 
-        bp2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startQuestionIterative();
-            }
-        });
+        restart.setOnClickListener(v -> {
+            //Reset la liste de questions et le score
 
-        //1er timer
-        //2eme reponse du joueur
-        // Checkanswer
-        menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Retourne au menu
-                finish();
-            }
-        });
-
-        restart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Reset la liste de questions et le score
-
-            }
         });
     }
 
@@ -116,42 +99,35 @@ public class GameActivity extends AppCompatActivity {
         question2.setText(question);
     }
 
-    private void startQuestionIterative(){
-        handler = new Handler();
-        questionRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (!manager.getCurrentQuestion().equals("Fin du jeu.")) {
-                    setQuestions();
-                    handler.postDelayed(questionRunnable, 4000);
-                } else {
-                    manager.resetListQuestion();
-                    handler.removeCallbacks(questionRunnable);
-                }
-            }
-        };
-        handler.postDelayed(questionRunnable,4000);
-    }
-
-    public void timer () {
+    public void timer() {
         if (timer != null) {
             timer.cancel();
         }
         timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        action = new TimerTask() {
             @Override
             public void run() {
-
+                if (!manager.getCurrentQuestion().equals("Fin du jeu.")) {
+                    setQuestions();
+                    manager.increaseIndex();
+                } else {
+                    manager.resetListQuestion();
+                    timer.cancel();
+                }
             }
-        });
+        };
+        timer.scheduleAtFixedRate(action, 0, 5000);
     }
 
-    /**
-     * affiche le score du joueur
-     */
-    public void setScore () {
+    //2eme reponse du joueur
+    //3eme Checkanswer
 
-    }
+//    /**
+//     * affiche le score du joueur
+//     */
+//    public void setScore () {
+//
+//    }
 
 
 }
