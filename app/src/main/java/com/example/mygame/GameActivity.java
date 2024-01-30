@@ -27,10 +27,8 @@ public class GameActivity extends AppCompatActivity {
     private Button menu;
 
     //Score
-//    private TextView score1;
-//    private TextView score2;
-//    private int score_1;
-//    private int score_2;
+    private TextView score1;
+    private TextView score2;
 
     //questions
     private TextView question1;
@@ -40,6 +38,9 @@ public class GameActivity extends AppCompatActivity {
     Handler handler;
     Timer timer;
     TimerTask action;
+    private int score_1 = -1;
+    private int score_2 = -1;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
@@ -64,36 +65,55 @@ public class GameActivity extends AppCompatActivity {
         menu = findViewById(R.id.BT_menu);
         restart = findViewById(R.id.BT_restart);
 
-        //score1 = findViewById(R.id.score1);
-        //score2 = findViewById(R.id.score2);
+        score1 = findViewById(R.id.score1);
+        score2 = findViewById(R.id.score2);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        question1.setText("Clique sur le bouton si t'es prêts.");
-        question2.setText("Clique sur le bouton si t'es prêts.");
+        question1.setText("Cliquez sur le bouton si vous êtes prêts.");
+        question2.setText("Cliquez sur le bouton si vous êtes prêts.");
         manager.questions();
 
-        bp1.setOnClickListener(v -> timer());
-
-        bp2.setOnClickListener(v -> timer());
-
-        menu.setOnClickListener(v -> {
-            //Retourne au menu
-            finish();
+        bp1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timer();
+                manager.setPlayerCurrentAnswer(false);
+                manager.checkAnswer();
+                //setScore();
+            }
+        });
+        bp2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timer();
+                manager.setPlayerCurrentAnswer(false);
+                manager.checkAnswer();
+                //setScore();
+            }
         });
 
-        restart.setOnClickListener(v -> {
-            //Reset la liste de questions et le score
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
+        restart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recreate();
+            }
         });
     }
 
     /**
      * Affiche les questions
      */
-    public void setQuestions() {
+    public void showQuestions() {
         String question = manager.getCurrentQuestion();
         question1.setText(question);
         question2.setText(question);
@@ -108,8 +128,9 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (!manager.getCurrentQuestion().equals("Fin du jeu.")) {
-                    setQuestions();
+                    showQuestions();
                     manager.increaseIndex();
+                    manager.setPlayerCurrentAnswer(true);
                 } else {
                     manager.resetListQuestion();
                     timer.cancel();
@@ -119,15 +140,14 @@ public class GameActivity extends AppCompatActivity {
         timer.scheduleAtFixedRate(action, 0, 5000);
     }
 
-    //2eme reponse du joueur
-    //3eme Checkanswer
+    /**
+     * Calcule et affiche le score du joueur
+     */
+    public void setScore () {
+        score_1 += manager.getScoreModif();
+        score_2 += manager.getScoreModif();
 
-//    /**
-//     * affiche le score du joueur
-//     */
-//    public void setScore () {
-//
-//    }
-
-
+        score1.setText(String.valueOf(score_1));
+        score2.setText(String.valueOf(score_2));
+    }
 }

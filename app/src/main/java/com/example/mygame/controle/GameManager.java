@@ -9,6 +9,8 @@ public class GameManager {
     private List<Question> listQuestions;
     private int indexQuestion;
     private QuestionData questionData;
+    private Boolean playerCurrentAnswer;
+    private int modif;
 
     /**
      * Initialise la liste de questions
@@ -45,16 +47,27 @@ public class GameManager {
         indexQuestion = 0;
     }
 
-//    public Boolean playerAnswer (Boolean playerAnswer) {
-//
-//    }
+    /**
+     * Vérifie si la réponse du joueur est juste et augmente ou descends son score en fonction de sa réponse
+     */
+    public void checkAnswer() {
+        Boolean currentQuestionAnswer = listQuestions.get(indexQuestion).getAnswer();
+        if (currentQuestionAnswer == getPlayerCurrentAnswer()){
+            modif++;
+        } else {
+            modif--;
+        }
+    }
+    public int getScoreModif() {
+        return modif;
+    }
+    public Boolean getPlayerCurrentAnswer() {
+        return playerCurrentAnswer;
+    }
 
-//    /**
-//     * Vérifie si la réponse du joueur est juste et augmente ou descends son score
-//     */
-//    public void checkAnswer() {
-//        Boolean currentAnswer = listQuestions.get(indexQuestion).getAnswer();
-//    }
+    public void setPlayerCurrentAnswer(Boolean playerCurrentAnswer) {
+        this.playerCurrentAnswer = playerCurrentAnswer;
+    }
 
 //    /**
 //     * Charge une liste de question depuis la DB.
