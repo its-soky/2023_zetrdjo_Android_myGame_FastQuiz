@@ -11,6 +11,8 @@ public class GameManager {
     private QuestionData questionData;
     private int score_1;
     private int score_2;
+    private boolean BP1clicked = true;// Bouton p1
+    private boolean BP2clicked = true;// Bouton p2
     private enum Player {
         PLAYER1,
         PLAYER2
@@ -29,6 +31,7 @@ public class GameManager {
      * @return une question
      */
     public String getCurrentQuestion() {
+        questions();
         if (indexQuestion < listQuestions.size()) {
             return listQuestions.get(indexQuestion).getTitle();
         }
@@ -36,38 +39,25 @@ public class GameManager {
     }
 
     /**
-     * Augmente l'index
-     */
-    public void increaseIndex(){
-        indexQuestion++;
-    }
-
-    public int getListSize() {
-        return listQuestions.size();
-    }
-
-    public int getIndexQuestion() {
-        return indexQuestion;
-    }
-
-    /**
-     * réinitialise l'index de la liste pour que le jeu recommence
-     */
-    public void resetListQuestion() {
-        questionData = new QuestionData();
-        listQuestions = questionData.getListQuestions();
-        indexQuestion = 0;
-    }
-
-    /**
      * Vérifie si la réponse du joueur est juste et augmente ou descends son score en fonction de sa réponse
      */
-    public void checkAnswer(Boolean playerAnswer, Player player) {
-        Boolean currentQuestionAnswer = listQuestions.get(indexQuestion).getAnswer();
-        if (currentQuestionAnswer == playerAnswer){
-            increaseScore(player);
+    public void checkAnswer() {
+        if (isBP1clicked() == getCurrentAnswer()) {
+            increaseScore(getPlayer1());
         } else {
-            decreaseScore(player);
+            decreaseScore(getPlayer1());
+        }
+        setBP1clicked(true);
+
+        if (isBP2clicked() == getCurrentAnswer()) {
+            increaseScore(getPlayer2());
+        } else {
+            decreaseScore(getPlayer2());
+        }
+        setBP2clicked(true);
+
+        if (indexQuestion < listQuestions.size()) {
+            indexQuestion++;
         }
     }
 
@@ -80,26 +70,42 @@ public class GameManager {
     }
 
     public void decreaseScore (Player player){
-        if (player == Player.PLAYER1 && score_1 != 0) {
+        if (player == Player.PLAYER1 && score_1 > 0) {
             score_1--;
-        } else if (score_2 != 0) {
+        }
+        if (player == Player.PLAYER1 && score_2 > 0) {
             score_2--;
         }
     }
+
     public int getScore_1() {
         return score_1;
     }
-
     public int getScore_2() {
         return score_2;
     }
-
     public Player getPlayer1() {
         return Player.PLAYER1;
     }
     public Player getPlayer2() {
         return Player.PLAYER2;
     }
+    public boolean getCurrentAnswer() {
+        return listQuestions.get(indexQuestion).getAnswer();
+    }
+    public void setBP1clicked(boolean BP1clicked) {
+        this.BP1clicked = BP1clicked;
+    }
+    public boolean isBP1clicked() {
+        return BP1clicked;
+    }
+    public boolean isBP2clicked() {
+        return BP2clicked;
+    }
+    public void setBP2clicked(boolean BP2clicked) {
+        this.BP2clicked = BP2clicked;
+    }
+
 
 //    /**
 //     * Charge une liste de question depuis la DB.

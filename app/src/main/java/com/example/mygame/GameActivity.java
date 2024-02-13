@@ -2,8 +2,6 @@ package com.example.mygame;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -31,15 +29,13 @@ public class GameActivity extends AppCompatActivity {
     private TextView question2;
 
     GameManager manager;
-    Handler handler;
     Timer timer;
-    TimerTask action;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
         manager = new GameManager();
-        handler = new Handler();
 
         //Player name
         TextView name1 = findViewById(R.id.nickname1);
@@ -66,24 +62,22 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        question1.setText("Cliquez sur le bouton si vous êtes prêts.");
-        question2.setText("Cliquez sur le bouton si vous êtes prêts.");
+        timer();
         manager.questions();
 
         bp1.setOnClickListener(v -> {
-            timer();
-            manager.checkAnswer(false, manager.getPlayer1());
-            showScore();
+            manager.setBP1clicked(false);
         });
 
         bp2.setOnClickListener(v -> {
-            timer();
-            manager.checkAnswer(false, manager.getPlayer2());
-            showScore();
+            manager.setBP2clicked(false);
         });
 
         menu.setOnClickListener(v -> finish());
-        restart.setOnClickListener(v -> recreate());
+        restart.setOnClickListener(v -> {
+            recreate();
+            timer();
+        });
     }
 
     /**
@@ -95,30 +89,35 @@ public class GameActivity extends AppCompatActivity {
         question2.setText(question);
     }
 
+    //3 montrer au prof
+    //4 faire Menu
+    //5 ajouter  base de données
     public void timer() {
         if (timer != null) {
             timer.cancel();
         }
         timer = new Timer();
-        action = new TimerTask() {
+        timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                showQuestions();
-                if (!manager.getCurrentQuestion().equals("Fin du jeu.")) {
-                    manager.checkAnswer(true, manager.getPlayer1());
-                    manager.checkAnswer(true, manager.getPlayer2());
-                    manager.increaseIndex();
-                } else {
-                    timer.cancel();
-                    manager.resetListQuestion();
-                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!manager.getCurrentQuestion().equals("Fin du jeu.")) {
+                            manager.checkAnswer();
+                            showScore();
+                            showQuestions();
+                        } else {
+                            timer.cancel();
+                        }
+                    }
+                });
             }
-        };
-        timer.scheduleAtFixedRate(action, 0, 4000);
+        }, 2500, 5000);
     }
 
     /**
-     * Calcule et affiche le score du joueur
+     * affiche le score du joueur
      */
     public void showScore() {
         score1.setText(String.valueOf(manager.getScore_1()));

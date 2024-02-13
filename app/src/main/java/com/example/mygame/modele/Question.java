@@ -4,6 +4,7 @@ import android.database.Cursor;
 
 public class Question {
     private String title;
+    //private int answer;
     private Boolean answer;
 
     public Question(String title, Boolean answer) {

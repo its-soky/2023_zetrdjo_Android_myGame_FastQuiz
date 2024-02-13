@@ -5,8 +5,9 @@
     <string name="startNewGame">Nouvelle partie</string>
     <string name="player1">Joueur 1</string>
     <string name="player2">Joueur 2</string>
-    <string name="questionIntro">Question</string>
+    <string name="questionIntro">Prets ?</string>
     <string name="menu">MENU</string>
     <string name="restart">REESSAYER</string>
-    <string name="StartScore">0</string>
+    <string name="startScore">0</string>
+    <string name="ready">Cliquez sur le bouton si vous êtes prêts.</string>
 </resources>
