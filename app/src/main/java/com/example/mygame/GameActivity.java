@@ -89,9 +89,6 @@ public class GameActivity extends AppCompatActivity {
         question2.setText(question);
     }
 
-    //3 montrer au prof
-    //4 faire Menu
-    //5 ajouter  base de données
     public void timer() {
         if (timer != null) {
             timer.cancel();

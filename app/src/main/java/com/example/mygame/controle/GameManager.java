@@ -1,8 +1,12 @@
 package com.example.mygame.controle;
 
+import android.content.Context;
+import android.database.Cursor;
+
 import com.example.mygame.modele.Question;
 import com.example.mygame.modele.QuestionData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameManager {
@@ -107,11 +111,11 @@ public class GameManager {
     }
 
 
-//    /**
-//     * Charge une liste de question depuis la DB.
-//     * @param context Le contexte de l'application pour passer la query
-//     * @return Une arraylist charger de Question
-//     */
+    /**
+     * Charge une liste de question depuis la DB.
+     * @param context Le contexte de l'application pour passer la query
+     * @return Une arraylist charger de Question
+     */
 //    private ArrayList<Question> initQuestionList(Context context){
 //        ArrayList<Question> listQuestion = new ArrayList<>();
 //        SpeedQuizSQLiteOpenHelper helper = new SpeedQuizSQLiteOpenHelper(context);
