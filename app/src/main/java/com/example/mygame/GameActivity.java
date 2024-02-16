@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mygame.controle.GameManager;
 
-
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -63,14 +63,13 @@ public class GameActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         timer();
-        manager.questions();
 
         bp1.setOnClickListener(v -> {
-            manager.setBP1clicked(false);
+            manager.setBP1clicked(true);
         });
 
         bp2.setOnClickListener(v -> {
-            manager.setBP2clicked(false);
+            manager.setBP2clicked(true);
         });
 
         menu.setOnClickListener(v -> finish());
@@ -83,10 +82,11 @@ public class GameActivity extends AppCompatActivity {
     /**
      * Affiche les questions
      */
-    public void showQuestions() {
-        String question = manager.getCurrentQuestion();
+    public boolean showQuestions() {
+        String question = manager.nextQuestion();
         question1.setText(question);
         question2.setText(question);
+        return question.equals("Fin du jeu.");
     }
 
     public void timer() {
@@ -100,11 +100,9 @@ public class GameActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (!manager.getCurrentQuestion().equals("Fin du jeu.")) {
-                            manager.checkAnswer();
-                            showScore();
-                            showQuestions();
-                        } else {
+                        manager.checkAnswer();
+                        showScore();
+                        if (showQuestions()) {
                             timer.cancel();
                         }
                     }

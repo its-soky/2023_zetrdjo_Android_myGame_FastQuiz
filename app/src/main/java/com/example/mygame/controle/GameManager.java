@@ -15,31 +15,29 @@ public class GameManager {
     private QuestionData questionData;
     private int score_1;
     private int score_2;
-    private boolean BP1clicked = true;// Bouton p1
-    private boolean BP2clicked = true;// Bouton p2
+    private boolean BP1clicked;// Bouton p1
+    private boolean BP2clicked;// Bouton p2
     private enum Player {
         PLAYER1,
         PLAYER2
     }
 
-    /**
-     * Initialise la liste de questions
-     */
-    public void questions() {
-       questionData = new QuestionData();
-       listQuestions = questionData.getListQuestions();
+    public GameManager() {
+        questionData = new QuestionData();
+        listQuestions = questionData.getListQuestions();
     }
 
     /**
      * Prends une question dans la liste et la retourne
      * @return une question
      */
-    public String getCurrentQuestion() {
-        questions();
-        if (indexQuestion < listQuestions.size()) {
-            return listQuestions.get(indexQuestion).getTitle();
+    public String nextQuestion() {
+        System.out.println("good");
+        if (listQuestions.isEmpty()) {
+            return "Fin du jeu.";
         }
-        return "Fin du jeu.";
+        indexQuestion = (int)(Math.random() * listQuestions.size());
+        return listQuestions.get(indexQuestion).getTitle();
     }
 
     /**
@@ -51,18 +49,15 @@ public class GameManager {
         } else {
             decreaseScore(getPlayer1());
         }
-        setBP1clicked(true);
+        setBP1clicked(false);
 
         if (isBP2clicked() == getCurrentAnswer()) {
             increaseScore(getPlayer2());
         } else {
             decreaseScore(getPlayer2());
         }
-        setBP2clicked(true);
-
-        if (indexQuestion < listQuestions.size()) {
-            indexQuestion++;
-        }
+        setBP2clicked(false);
+        listQuestions.remove(indexQuestion);
     }
 
     public void increaseScore (Player player){
@@ -77,7 +72,7 @@ public class GameManager {
         if (player == Player.PLAYER1 && score_1 > 0) {
             score_1--;
         }
-        if (player == Player.PLAYER1 && score_2 > 0) {
+        if (player == Player.PLAYER2 && score_2 > 0) {
             score_2--;
         }
     }
@@ -109,7 +104,6 @@ public class GameManager {
     public void setBP2clicked(boolean BP2clicked) {
         this.BP2clicked = BP2clicked;
     }
-
 
     /**
      * Charge une liste de question depuis la DB.
