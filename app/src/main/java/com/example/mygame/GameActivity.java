@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mygame.controle.GameManager;
 
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,7 +34,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        manager = new GameManager();
+        manager = new GameManager(this);
 
         //Player name
         TextView name1 = findViewById(R.id.nickname1);
@@ -65,15 +64,16 @@ public class GameActivity extends AppCompatActivity {
         timer();
 
         bp1.setOnClickListener(v -> {
-            manager.setBP1clicked(true);
+            manager.setBP1clicked(1);
         });
 
         bp2.setOnClickListener(v -> {
-            manager.setBP2clicked(true);
+            manager.setBP2clicked(1);
         });
 
         menu.setOnClickListener(v -> finish());
         restart.setOnClickListener(v -> {
+            manager.reset();
             recreate();
             timer();
         });

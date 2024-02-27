@@ -2,9 +2,10 @@ package com.example.mygame.controle;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
+import com.example.mygame.modele.FastQuizSQLiteOpenHelper;
 import com.example.mygame.modele.Question;
-import com.example.mygame.modele.QuestionData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,19 +13,37 @@ import java.util.List;
 public class GameManager {
     private List<Question> listQuestions;
     private int indexQuestion;
-    private QuestionData questionData;
     private int score_1;
     private int score_2;
-    private boolean BP1clicked;// Bouton p1
-    private boolean BP2clicked;// Bouton p2
+    private int BP1clicked;// Bouton p1
+    private int BP2clicked;// Bouton p2
     private enum Player {
         PLAYER1,
         PLAYER2
     }
 
-    public GameManager() {
-        questionData = new QuestionData();
-        listQuestions = questionData.getListQuestions();
+    public GameManager(Context context) {
+        listQuestions = initQuestionList(context);
+    }
+
+    /**
+     * Charge une liste de question depuis la DB.
+     * @param context Le contexte de l'application pour passer la query
+     * @return Une arraylist charger de Question
+     */
+    private ArrayList<Question> initQuestionList(Context context){
+        FastQuizSQLiteOpenHelper helper = new FastQuizSQLiteOpenHelper(context);
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor cursor = db.query(true,"quiz",new String[]{"idQuiz","question","reponse"},null,null,null,null,"idquiz",null);
+        ArrayList<Question> listQuestion = new ArrayList<>();
+        while(cursor.moveToNext()){
+            listQuestion.add(new Question(cursor));
+        }
+
+        cursor.close();
+        db.close();
+        return listQuestion;
     }
 
     /**
@@ -32,7 +51,6 @@ public class GameManager {
      * @return une question
      */
     public String nextQuestion() {
-        System.out.println("good");
         if (listQuestions.isEmpty()) {
             return "Fin du jeu.";
         }
@@ -49,14 +67,14 @@ public class GameManager {
         } else {
             decreaseScore(getPlayer1());
         }
-        setBP1clicked(false);
+        setBP1clicked(0);
 
         if (isBP2clicked() == getCurrentAnswer()) {
             increaseScore(getPlayer2());
         } else {
             decreaseScore(getPlayer2());
         }
-        setBP2clicked(false);
+        setBP2clicked(0);
         listQuestions.remove(indexQuestion);
     }
 
@@ -77,6 +95,12 @@ public class GameManager {
         }
     }
 
+    public void reset() {
+
+        score_1 = 0;
+        score_2 = 0;
+    }
+
     public int getScore_1() {
         return score_1;
     }
@@ -89,40 +113,19 @@ public class GameManager {
     public Player getPlayer2() {
         return Player.PLAYER2;
     }
-    public boolean getCurrentAnswer() {
+    public int getCurrentAnswer() {
         return listQuestions.get(indexQuestion).getAnswer();
     }
-    public void setBP1clicked(boolean BP1clicked) {
+    public void setBP1clicked(int BP1clicked) {
         this.BP1clicked = BP1clicked;
     }
-    public boolean isBP1clicked() {
+    public int isBP1clicked() {
         return BP1clicked;
     }
-    public boolean isBP2clicked() {
+    public int isBP2clicked() {
         return BP2clicked;
     }
-    public void setBP2clicked(boolean BP2clicked) {
+    public void setBP2clicked(int BP2clicked) {
         this.BP2clicked = BP2clicked;
     }
-
-    /**
-     * Charge une liste de question depuis la DB.
-     * @param context Le contexte de l'application pour passer la query
-     * @return Une arraylist charger de Question
-     */
-//    private ArrayList<Question> initQuestionList(Context context){
-//        ArrayList<Question> listQuestion = new ArrayList<>();
-//        SpeedQuizSQLiteOpenHelper helper = new SpeedQuizSQLiteOpenHelper(context);
-//        SQLiteDatabase db = helper.getReadableDatabase();
-//
-//        Cursor cursor = db.query(true,"quiz",new String[]{"idQuiz","question","reponse"},null,null,null,null,"idquiz",null);
-//
-//        while(cursor.moveToNext()){
-//            listQuestion.add(new Question(cursor));
-//        }
-//
-//        cursor.close();
-//        db.close();
-//        return listQuestion;
-//    }
 }
