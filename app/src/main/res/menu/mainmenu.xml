@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-        <!--xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+        <item
+            android:id="@+id/Settings"
+            android:title="@string/menuItem1"
+            app:showAsAction="never" />
 
         <item
-            android:id="@+id/edit"
-            android:title="@string/edit"
-            android:contentDescription="@string/content_description_search"
-            app:showAsAction="ifRoom" />
+            android:id="@+id/Question"
+            android:title="@string/menuItem2"
+            app:showAsAction="never" />
 
         <item
-            android:id="@+id/favorite"
-            android:icon="@drawable/ic_favorite_24dp"
-            android:title="@string/favorite"
-            android:contentDescription="@string/content_description_favorite"
-            app:showAsAction="ifRoom" />
-
-        <item
-            android:id="@+id/more"
-            android:title="@string/more"
-            android:contentDescription="@string/content_description_more"
-            app:showAsAction="never" />-->
+            android:id="@+id/About"
+            android:title="@string/menuItem3"
+            app:showAsAction="never" />
 </menu>

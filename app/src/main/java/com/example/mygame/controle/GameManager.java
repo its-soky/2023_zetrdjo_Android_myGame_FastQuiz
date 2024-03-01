@@ -15,14 +15,16 @@ public class GameManager {
     private int indexQuestion;
     private int score_1;
     private int score_2;
-    private int BP1clicked;// Bouton p1
-    private int BP2clicked;// Bouton p2
+    private int BP1clicked;// Bouton J1
+    private int BP2clicked;// Bouton J2
+    private Context context;
     private enum Player {
         PLAYER1,
         PLAYER2
     }
 
     public GameManager(Context context) {
+        this.context = context;
         listQuestions = initQuestionList(context);
     }
 
@@ -47,7 +49,7 @@ public class GameManager {
     }
 
     /**
-     * Prends une question dans la liste et la retourne
+     * Prends une question aléatoire dans la liste et la retourne
      * @return une question
      */
     public String nextQuestion() {
@@ -59,7 +61,7 @@ public class GameManager {
     }
 
     /**
-     * Vérifie si la réponse du joueur est juste et augmente ou descends son score en fonction de sa réponse
+     * Vérifie si la réponse des joueurs et augmente ou descends leur score en fonction de leur réponse
      */
     public void checkAnswer() {
         if (isBP1clicked() == getCurrentAnswer()) {
@@ -78,6 +80,10 @@ public class GameManager {
         listQuestions.remove(indexQuestion);
     }
 
+    /**
+     * Augmente le score du joueur
+     * @param player Le joueur
+     */
     public void increaseScore (Player player){
         if (player == Player.PLAYER1) {
             score_1++;
@@ -86,6 +92,10 @@ public class GameManager {
         }
     }
 
+    /**
+     * Diminue le score du joueur
+     * @param player Le joueur
+     */
     public void decreaseScore (Player player){
         if (player == Player.PLAYER1 && score_1 > 0) {
             score_1--;
@@ -95,12 +105,16 @@ public class GameManager {
         }
     }
 
+    /**
+     * reinitialise la liste et le score
+     */
     public void reset() {
-
+        listQuestions = initQuestionList(context);
         score_1 = 0;
         score_2 = 0;
     }
 
+    //Getter et setter
     public int getScore_1() {
         return score_1;
     }

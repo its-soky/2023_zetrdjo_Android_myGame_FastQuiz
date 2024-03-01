@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/Activity_Game"
@@ -34,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/buttonP1"
         android:rotation="180"
-        android:text="@string/questionIntro"
+        android:text="@string/ready"
         android:textAlignment="center"
         android:textSize="25sp"
         app:layout_constraintTop_toBottomOf="@+id/buttonP1"
@@ -46,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/buttonP2"
         android:layout_marginBottom="1dp"
-        android:text="@string/questionIntro"
+        android:text="@string/ready"
         android:textAlignment="center"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/buttonP2"

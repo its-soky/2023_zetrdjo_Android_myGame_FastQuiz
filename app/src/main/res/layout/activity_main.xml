@@ -11,7 +11,6 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -41,7 +40,8 @@
         android:hint="@string/player1"
         android:inputType="text"
         android:visibility="invisible"
-        android:enabled="false">
+        android:enabled="false"
+        android:autofillHints="">
     </EditText>
 
     <EditText
@@ -53,7 +53,8 @@
         android:hint="@string/player2"
         android:inputType="text"
         android:visibility="invisible"
-        android:enabled="false">
+        android:enabled="false"
+        android:autofillHints="">
     </EditText>
 
     <Button

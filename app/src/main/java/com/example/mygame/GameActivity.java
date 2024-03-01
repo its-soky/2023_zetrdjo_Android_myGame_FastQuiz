@@ -13,17 +13,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameActivity extends AppCompatActivity {
-    //players buttons
-    private Button bp1; //
-    private Button bp2;
+    private Button bp1; //Bouton J1
+    private Button bp2; //Bouton J2
     private Button restart;
     private Button menu;
-
-    //Score
     private TextView score1;
     private TextView score2;
-
-    //questions
     private TextView question1;
     private TextView question2;
 
@@ -36,7 +31,7 @@ public class GameActivity extends AppCompatActivity {
 
         manager = new GameManager(this);
 
-        //Player name
+        //Afficher nom joueur
         TextView name1 = findViewById(R.id.nickname1);
         TextView name2 = findViewById(R.id.nickname2);
 
@@ -63,13 +58,9 @@ public class GameActivity extends AppCompatActivity {
         super.onStart();
         timer();
 
-        bp1.setOnClickListener(v -> {
-            manager.setBP1clicked(1);
-        });
+        bp1.setOnClickListener(v -> manager.setBP1clicked(1));
 
-        bp2.setOnClickListener(v -> {
-            manager.setBP2clicked(1);
-        });
+        bp2.setOnClickListener(v -> manager.setBP2clicked(1));
 
         menu.setOnClickListener(v -> finish());
         restart.setOnClickListener(v -> {
@@ -81,6 +72,7 @@ public class GameActivity extends AppCompatActivity {
 
     /**
      * Affiche les questions
+     * @return "Fin du jeu" quand il n'y a plus de questions dans la liste
      */
     public boolean showQuestions() {
         String question = manager.nextQuestion();
@@ -89,6 +81,11 @@ public class GameActivity extends AppCompatActivity {
         return question.equals("Fin du jeu.");
     }
 
+    /**
+     * Apres un certain temps, il verifie la réponse du joueur, recalcule le score des joueurs et affiche la prochaine question
+     * delay : determine le temps d'attente avant que la fonction commence
+     * period: determine le temps d'attente entre chaque itération
+     */
     public void timer() {
         if (timer != null) {
             timer.cancel();
@@ -97,14 +94,11 @@ public class GameActivity extends AppCompatActivity {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        manager.checkAnswer();
-                        showScore();
-                        if (showQuestions()) {
-                            timer.cancel();
-                        }
+                runOnUiThread(() -> {
+                    manager.checkAnswer();
+                    showScore();
+                    if (showQuestions()) {
+                        timer.cancel();
                     }
                 });
             }
