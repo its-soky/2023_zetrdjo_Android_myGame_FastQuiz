@@ -1,5 +1,6 @@
 package com.example.mygame;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -8,43 +9,46 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 
 public class MainActivity extends AppCompatActivity {
     private EditText player1;
     private EditText player2;
     private Button BT_newPlayer;
     private Button BT_newGame;
-    //Toolbar toolbar = findViewById(R.id.toolbar);(trouve pas toolbar)
-    //Menu menu = toolbar.getMenu();
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //MainActivity.this.startActivity(gameIntent);
-        int id = item.getItemId();
-        if (id == R.id.Settings){
-            System.out.println("Settings open");
-            return true;
-        }
-        if (id == R.id.Question){
-            System.out.println("Question open");
-            return true;
-        }
-        if (id == R.id.About){
-            System.out.println("About open");
-            return true;
-        }
-        return false;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //setSupportActionBar(toolbar);
-        getMenuInflater().inflate(R.menu.mainmenu, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.mainmenu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.Settings){
+            System.out.println("Page settings open");
+            return true;
+        }
+        if (id == R.id.Question){
+            System.out.println("Page question open");
+            return true;
+        }
+        if (id == R.id.About){
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("About");
+            alert.setMessage("This project was made by Djovensky Zetrenne");
+            alert.setPositiveButton("OK :)", null);
+            alert.show();
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -55,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
         player2 = findViewById(R.id.playerName2);
         BT_newPlayer = findViewById(R.id.newPlayer);
         BT_newGame = findViewById(R.id.newGame);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.showOverflowMenu();
     }
 
     @Override

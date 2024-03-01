@@ -11,4 +11,7 @@
     <string name="menuItem1">Settings</string>
     <string name="menuItem2">Questions</string>
     <string name="menuItem3">About</string>
+    <string name="delay">Set delay:</string>
+    <string name="questions">Set number of questions:</string>
+    <string name="bt_apply">Apply</string>
 </resources>

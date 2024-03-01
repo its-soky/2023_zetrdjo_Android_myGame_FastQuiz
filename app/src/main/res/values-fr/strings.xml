@@ -9,7 +9,10 @@
     <string name="menu">MENU</string>
     <string name="restart">REESSAYER</string>
     <string name="startScore">0</string>
-    <string name="menuItem1">Settings</string>
+    <string name="menuItem1">Paramètres</string>
     <string name="menuItem2">Questions</string>
-    <string name="menuItem3">About</string>
+    <string name="menuItem3">A propos</string>
+    <string name="delay">Définir le délai:</string>
+    <string name="questions">Définir le nombre de questions:</string>
+    <string name="bt_apply">Appliquer</string>
 </resources>

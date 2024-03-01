@@ -2,6 +2,7 @@ package com.example.mygame;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -57,6 +58,8 @@ public class GameActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         timer();
+        restart.setVisibility(View.INVISIBLE);
+        menu.setVisibility(View.INVISIBLE);
 
         bp1.setOnClickListener(v -> manager.setBP1clicked(1));
 
@@ -82,7 +85,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     /**
-     * Apres un certain temps, il verifie la réponse du joueur, recalcule le score des joueurs et affiche la prochaine question
+     * Apres un certain temps, il verifie la réponse du joueur, recalcule le score des joueurs, affiche la prochaine question
+     * et affiche les boutons reset et menu
      * delay : determine le temps d'attente avant que la fonction commence
      * period: determine le temps d'attente entre chaque itération
      */
@@ -98,6 +102,8 @@ public class GameActivity extends AppCompatActivity {
                     manager.checkAnswer();
                     showScore();
                     if (showQuestions()) {
+                        restart.setVisibility(View.VISIBLE);
+                        menu.setVisibility(View.VISIBLE);
                         timer.cancel();
                     }
                 });
